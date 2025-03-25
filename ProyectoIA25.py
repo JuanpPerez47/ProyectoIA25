@@ -24,6 +24,17 @@ hide_streamlit_style = """
     <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    .stButton>button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+    }
+    .stButton>button:hover {
+        background-color: #45a049;
+    }
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -32,6 +43,9 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 @st.cache_resource
 def load_model():
     model_path = "modelo_entrenado.h5"
+    if not os.path.exists(model_path):
+        st.error("Error: No se encontró el modelo entrenado. Verifica la ruta.")
+        return None
     try:
         model = tf.keras.models.load_model(model_path, compile=False)
         return model
@@ -43,6 +57,7 @@ with st.spinner('Cargando modelo...'):
     model = load_model()
 
 # Cargar nombres de clases
+class_names = []
 try:
     with open("claseIA.txt", "r") as f:
         class_names = [line.strip() for line in f.readlines()]
@@ -50,37 +65,45 @@ try:
         st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
 except FileNotFoundError:
     st.error("No se encontró el archivo claseIA.txt. Verifique la ruta.")
-    class_names = []
 
 # Configuración de la barra lateral
 with st.sidebar:
     st.video("https://www.youtube.com/watch?v=xxUHCtHnVk8")
     st.title("Reconocimiento de imagen")
-    st.subheader("Reconocimiento de objetos con VGG16")
+    st.subheader("Identificación de objetos con VGG16")
     confianza = st.slider("Seleccione el nivel de confianza", 0, 100, 50) / 100
 
 st.image('smartregionlab2.jpeg')
 st.title("Modelo de Identificación de Objetos - Smart Regions Center")
 st.write("Desarrollo del Proyecto de Ciencia de Datos con Redes Convolucionales")
 
-# Función para preprocesar la imagen según VGG16
+# Función para preprocesar la imagen
 def preprocess_image(image):
-    image = image.convert('RGB')  # Asegurar que la imagen está en modo RGB
-    image = image.resize((224, 224))  # Redimensionar a 224x224
-    image_array = tf.keras.utils.img_to_array(image)  # Convertir a array
-    image_array = np.expand_dims(image_array, axis=0)  # Agregar dimensión batch
-    image_array = preprocess_input(image_array)  # Preprocesamiento de VGG16
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+    image = image.resize((224, 224))
+    image_array = np.array(image)
+    image_array = np.expand_dims(image_array, axis=0)  # Expandir dimensión batch
+    image_array = preprocess_input(image_array)  # Normalización de VGG16
     return image_array
 
 # Función de predicción
 def import_and_predict(image, model, class_names):
-    processed_image = preprocess_image(image)  
-    prediction = model.predict(processed_image)  
-    score = tf.nn.softmax(prediction[0]).numpy()  # Aplicar softmax
-    index = np.argmax(score)  
+    if model is None:
+        return "Modelo no cargado", 0.0
 
-    class_name = class_names[index] if index < len(class_names) else "Desconocido"
-    return class_name, score[index]
+    image = preprocess_image(image)
+    prediction = model.predict(image)
+
+    index = np.argmax(prediction[0])
+    confidence = np.max(prediction[0])
+
+    if index < len(class_names):
+        class_name = class_names[index]
+    else:
+        class_name = "Desconocido"
+
+    return class_name, confidence
 
 # Función para generar audio
 def generar_audio(texto):
@@ -100,6 +123,8 @@ def reproducir_audio(mp3_fp):
 # Captura de imagen desde la cámara o carga desde archivo
 img_file_buffer = st.camera_input("Capture una foto para identificar el objeto") or \
                   st.file_uploader("Cargar imagen desde archivo", type=["jpg", "jpeg", "png"])
+
+resultado = "No se ha procesado ninguna imagen."
 
 if img_file_buffer is None:
     image_url = st.text_input("O ingrese la URL de la imagen")
@@ -122,7 +147,7 @@ if img_file_buffer and model:
         # Mostrar el resultado y generar audio
         if confidence_score > confianza:
             resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
-            st.subheader(f"Tipo de Objeto: {class_name}")
+            st.subheader(f"🔍 Tipo de Objeto: {class_name}")
             st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
         else:
             resultado = "No se pudo determinar el tipo de objeto"
