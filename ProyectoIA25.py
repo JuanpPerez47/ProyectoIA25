@@ -31,7 +31,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Cargar el modelo con cache para evitar recargas innecesarias
 @st.cache_resource
 def load_model():
-    model_path = "/mnt/data/modelo_entrenado.h5"
+    model_path = "modelo_entrenado.h5"
     try:
         model = tf.keras.models.load_model(model_path, compile=False)
         return model
