@@ -90,6 +90,11 @@ def import_and_predict(image_data, model, class_names):
     class_name = class_names[index].strip()
     return class_name, score
 
+def preprocess_image(image):
+    image = tf.image.resize(image, (224, 224))  # Redimensionar a 224x224
+    image = image / 255.0  # Normalizar (opcional)
+    return image
+
 def generar_audio(texto):
     tts = gTTS(text=texto, lang='es')
     mp3_fp = BytesIO()
