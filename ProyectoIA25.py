@@ -70,8 +70,8 @@ with st.sidebar:
     confianza = st.slider("Seleccione el nivel de Confianza", 0, 100, 50) / 100
 
 st.image('productose.jpg')
-st.title("Modelo de Identificación de Imagenes")
-st.write("Desarrollo Proyecto Final de Inteligencia Artificial : Aplicando modelos de Redes Convolucionales e Imagenes")
+st.title("Modelo de Identificación de Objetos dentro del Laboratorio Smart Regions Center")
+st.write("Desarrollo del Proyecto de Ciencia de Datos : Aplicando modelos de Redes Convolucionales e Imagenes")
 st.write("""
          # Detección de Objetos
          """
