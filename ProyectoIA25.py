@@ -6,6 +6,7 @@ import requests
 from io import BytesIO
 from gtts import gTTS
 import base64
+import os
 
 # Configuración de la página
 st.set_page_config(
