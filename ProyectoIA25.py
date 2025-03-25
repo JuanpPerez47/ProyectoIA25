@@ -27,7 +27,7 @@ st.markdown("""
 # Cargar modelo
 @st.cache_resource
 def load_model():
-    model_path = os.path.join(os.getcwd(), 'modelo_productos.h5')
+    model_path = os.path.join(os.getcwd(), 'modelo_entrenado.h5')
     return tf.keras.models.load_model(model_path)
 
 model = load_model()
