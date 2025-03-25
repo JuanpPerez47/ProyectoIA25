@@ -124,9 +124,7 @@ if img_file_buffer and model:
             resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
             st.subheader(f"Tipo de Objeto: {class_name}")
             st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
-        else:
-            resultado = "No se pudo determinar el tipo de objeto"
-            st.text(resultado)
+
 
         # Generar y reproducir el audio
         mp3_fp = generar_audio(resultado)
