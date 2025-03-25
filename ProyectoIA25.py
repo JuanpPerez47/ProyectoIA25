@@ -31,7 +31,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Cargar el modelo con cache para evitar recargas innecesarias
 @st.cache_resource
 def load_model():
-    model_path = "/mnt/data/modelo_entrenado.h5"
+    model_path = "modelo_entrenado.h5"
     try:
         model = tf.keras.models.load_model(model_path, compile=False)
         return model
@@ -44,7 +44,7 @@ with st.spinner('Cargando modelo...'):
 
 # Cargar nombres de clases
 try:
-    with open("/mnt/data/claseIA.txt", "r") as f:
+    with open("claseIA.txt", "r") as f:
         class_names = [line.strip() for line in f.readlines()]
     if not class_names:
         st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
