@@ -82,7 +82,7 @@ def reproducir_audio(mp3_fp):
     audio_html = f'<audio autoplay="true"><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
-class_names = open(".\ claseIA.txt", "r").readlines()
+class_names = open("./ claseIA.txt", "r").readlines()
 
 # Opción para capturar una imagen desde la cámara
 img_file_buffer = st.camera_input("Capture una foto para identificar el objeto")
