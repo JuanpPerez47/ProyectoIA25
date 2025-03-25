@@ -36,7 +36,7 @@ model = load_model()
 # Cargar clases desde el archivo clasesIA.txt
 @st.cache_resource
 def load_classes():
-    with open("clasesIA.txt", "r", encoding="utf-8") as f:
+    with open("claseIA.txt", "r", encoding="utf-8") as f:
         return [line.strip() for line in f.readlines()]
 
 class_names = load_classes()
