@@ -44,7 +44,7 @@ with st.spinner('Cargando modelo...'):
 
 # Cargar nombres de clases
 try:
-    with open("/mnt/data/claseIA.txt", "r") as f:
+    with open("./claseIA.txt", "r") as f:
         class_names = [line.strip() for line in f.readlines()]
     if not class_names:
         st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
