@@ -41,7 +41,7 @@ import os
 warnings.filterwarnings("ignore")
 
 st.set_page_config(
-    page_title="Reconocimiento de Productos",
+    page_title="Reconocimiento de Objetos",
     page_icon=":smile:",
     initial_sidebar_state='auto'
 )
@@ -66,14 +66,14 @@ with st.spinner('Modelo está cargando..'):
 with st.sidebar:
     st.video("https://www.youtube.com/watch?v=xxUHCtHnVk8")
     st.title("Reconocimiento de imagen")
-    st.subheader("Reconocimiento de imagen para productos")
+    st.subheader("Reconocimiento de imagen para objetos")
     confianza = st.slider("Seleccione el nivel de Confianza", 0, 100, 50) / 100
 
 st.image('productose.jpg')
 st.title("Modelo de Identificación de Imagenes")
 st.write("Desarrollo Proyecto Final de Inteligencia Artificial : Aplicando modelos de Redes Convolucionales e Imagenes")
 st.write("""
-         # Detección de Productos
+         # Detección de Objetos
          """
          )
 
@@ -106,7 +106,7 @@ def reproducir_audio(mp3_fp):
 class_names = open("./claseIA.txt", "r").readlines()
 
 # Opción para capturar una imagen desde la cámara
-img_file_buffer = st.camera_input("Capture una foto para identificar el producto")
+img_file_buffer = st.camera_input("Capture una foto para identificar el objeto")
 
 # Opción para cargar una imagen desde un archivo local
 if img_file_buffer is None:
@@ -134,11 +134,11 @@ if img_file_buffer:
 
         # Mostrar el resultado y generar audio
         if max_score > confianza:
-            resultado = f"Tipo de Producto: {class_name}\nPuntuación de confianza: {100 * max_score:.2f}%"
-            st.subheader(f"Tipo de Producto: {class_name}")
+            resultado = f"Tipo de Objeti: {class_name}\nPuntuación de confianza: {100 * max_score:.2f}%"
+            st.subheader(f"Tipo de Objeto: {class_name}")
             st.text(f"Puntuación de confianza: {100 * max_score:.2f}%")
         else:
-            resultado = "No se pudo determinar el tipo de producto"
+            resultado = "No se pudo determinar el tipo de objeto"
             st.text(resultado)
 
         # Generar y reproducir el audio
