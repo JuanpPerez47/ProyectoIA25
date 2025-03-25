@@ -1,0 +1,7 @@
+streamlit
+tensorflow==2.15
+Pillow
+numpy
+requests
+gtts
+base64
