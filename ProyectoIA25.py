@@ -19,7 +19,6 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-# Ocultar elementos de Streamlit
 hide_streamlit_style = """
     <style>
     #MainMenu {visibility: hidden;}
@@ -28,12 +27,15 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Cargar el modelo con cache para evitar recargas innecesarias
 @st.cache_resource
 def load_model():
-    model_path = "modelo_entrenado.h5"
+    """ Carga el modelo entrenado """
+    model_path = "./modelo_entrenado.h5"
+    if not os.path.exists(model_path):
+        st.error("Error: No se encontró el modelo entrenado. Verifica la ruta.")
+        return None
     try:
-        model = tf.keras.models.load_model(model_path, compile=False)
+        model = tf.keras.models.load_model(model_path)
         return model
     except Exception as e:
         st.error(f"Error al cargar el modelo: {e}")
@@ -42,7 +44,8 @@ def load_model():
 with st.spinner('Cargando modelo...'):
     model = load_model()
 
-# Cargar nombres de clases
+# Cargar nombres de clases correctamente
+class_names = []
 try:
     with open("./claseIA.txt", "r") as f:
         class_names = [line.strip() for line in f.readlines()]
@@ -50,56 +53,55 @@ try:
         st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
 except FileNotFoundError:
     st.error("No se encontró el archivo claseIA.txt. Verifique la ruta.")
-    class_names = []
 
-# Configuración de la barra lateral
-with st.sidebar:
-    st.video("https://www.youtube.com/watch?v=xxUHCtHnVk8")
-    st.title("Reconocimiento de imagen")
-    st.subheader("Reconocimiento de objetos con VGG16")
-    confianza = st.slider("Seleccione el nivel de confianza", 0, 100, 50) / 100
-
-st.image('smartregionlab2.jpeg')
-st.title("Modelo de Identificación de Objetos - Smart Regions Center")
-st.write("Desarrollo del Proyecto de Ciencia de Datos con Redes Convolucionales")
-
-# Función para preprocesar la imagen según VGG16
 def preprocess_image(image):
-    image = image.convert('RGB')  # Asegurar que la imagen está en modo RGB
-    image = image.resize((224, 224))  # Redimensionar a 224x224
-    image_array = tf.keras.utils.img_to_array(image)  # Convertir a array
-    image_array = np.expand_dims(image_array, axis=0)  # Agregar dimensión batch
-    image_array = preprocess_input(image_array)  # Preprocesamiento de VGG16
+    """ Preprocesa la imagen para el modelo VGG16 """
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+    image = image.resize((224, 224))
+    image_array = np.array(image)
+    image_array = np.expand_dims(image_array, axis=0)  # Expandir dimensión para batch
+    image_array = preprocess_input(image_array)  # Normalización específica de VGG16
     return image_array
 
-# Función de predicción
-def import_and_predict(image, model, class_names):
-    processed_image = preprocess_image(image)  
-    prediction = model.predict(processed_image)  
-    score = tf.nn.softmax(prediction[0]).numpy()  # Aplicar softmax
-    index = np.argmax(score)  
+def import_and_predict(image_data, model, class_names):
+    """ Realiza la predicción con el modelo """
+    if model is None:
+        return "Modelo no cargado", 0.0
 
-    class_name = class_names[index] if index < len(class_names) else "Desconocido"
-    return class_name, score[index]
+    image = preprocess_image(image_data)
+    prediction = model.predict(image)
 
-# Función para generar audio
+    index = np.argmax(prediction[0])  # Obtener índice de la clase con mayor probabilidad
+    confidence = np.max(prediction[0])  # Obtener la probabilidad máxima
+
+    if index < len(class_names):
+        class_name = class_names[index]
+    else:
+        class_name = "Desconocido"
+    
+    return class_name, confidence
+
 def generar_audio(texto):
+    """ Genera un archivo de audio a partir del texto """
     tts = gTTS(text=texto, lang='es')
     mp3_fp = BytesIO()
     tts.write_to_fp(mp3_fp)
     mp3_fp.seek(0)
     return mp3_fp
 
-# Función para reproducir el audio en Streamlit
 def reproducir_audio(mp3_fp):
+    """ Reproduce el audio generado """
     audio_bytes = mp3_fp.read()
     audio_base64 = base64.b64encode(audio_bytes).decode()
     audio_html = f'<audio autoplay="true"><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
-# Captura de imagen desde la cámara o carga desde archivo
+# Cargar imagen desde cámara, archivo o URL
 img_file_buffer = st.camera_input("Capture una foto para identificar el objeto") or \
                   st.file_uploader("Cargar imagen desde archivo", type=["jpg", "jpeg", "png"])
+
+resultado = "No se ha procesado ninguna imagen."  # Se define antes para evitar el error
 
 if img_file_buffer is None:
     image_url = st.text_input("O ingrese la URL de la imagen")
@@ -110,8 +112,8 @@ if img_file_buffer is None:
         except Exception as e:
             st.error(f"Error al cargar la imagen desde la URL: {e}")
 
-# Procesar la imagen y realizar la predicción
-if img_file_buffer and model:
+# Realizar la predicción si hay una imagen
+if img_file_buffer:
     try:
         image = Image.open(img_file_buffer)
         st.image(image, use_column_width=True)
@@ -120,16 +122,18 @@ if img_file_buffer and model:
         class_name, confidence_score = import_and_predict(image, model, class_names)
 
         # Mostrar el resultado y generar audio
-        if confidence_score > confianza:
-            resultado = f"Tipo de Objeto: {class_names}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
-            st.subheader(f"Tipo de Objeto: {class_names}")
+        if confidence_score > 0.5:  # Umbral de confianza del 50%
+            resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
+            st.subheader(f"Tipo de Objeto: {class_name}")
             st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
-
+        else:
+            resultado = "No se pudo determinar el tipo de objeto"
+            st.text(resultado)
 
         # Generar y reproducir el audio
         mp3_fp = generar_audio(resultado)
         reproducir_audio(mp3_fp)
-        
+
     except Exception as e:
         st.error(f"Error al procesar la imagen: {e}")
 else:
