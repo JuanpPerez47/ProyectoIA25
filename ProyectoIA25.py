@@ -69,7 +69,7 @@ with st.sidebar:
     st.subheader("Reconocimiento de imagen para objetos")
     confianza = st.slider("Seleccione el nivel de Confianza", 0, 100, 50) / 100
 
-st.image('smartregionlab.jpg')
+st.image('smartregionlab.jpeg')
 st.title("Modelo de Identificación de Objetos dentro del Laboratorio Smart Regions Center")
 st.write("Desarrollo del Proyecto de Ciencia de Datos : Aplicando modelos de Redes Convolucionales e Imagenes")
 st.write("""
