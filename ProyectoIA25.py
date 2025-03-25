@@ -8,22 +8,25 @@ from gtts import gTTS
 import base64
 import os
 
-# Configuración de la página
+# Configuración de la página con un diseño mejorado
 st.set_page_config(
     page_title="Identificación de Productos",
-    page_icon=":package:",
+    page_icon="📦",
     layout="centered"
 )
 
-st.title("Identificación de Productos por Imagen")
-
-# Ocultar menú y footer de Streamlit
+# Estilos mejorados con CSS
 st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+        body {background-color: #f4f4f4;}
+        .stButton button {background-color: #008CBA; color: white; font-size: 20px; padding: 10px;}
+        .stTextInput input {font-size: 18px; padding: 8px;}
+        .stImage img {border-radius: 10px;}
     </style>
 """, unsafe_allow_html=True)
+
+st.title("🔍 Identificación de Productos por Imagen")
+st.subheader("📢 Aplicación accesible para personas con limitaciones visuales")
 
 # Cargar modelo
 @st.cache_resource
@@ -67,32 +70,34 @@ def reproducir_audio(mp3_fp):
     audio_html = f'<audio autoplay="true"><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
-# Opción para subir imágenes
-img_file_buffer = st.camera_input("Capturar una imagen del producto")
+# Sección para subir imágenes
+st.markdown("### 📸 Capturar o subir una imagen del producto")
+img_file_buffer = st.camera_input("Tomar foto")
 if img_file_buffer is None:
-    img_file_buffer = st.file_uploader("O subir una imagen", type=["jpg", "jpeg", "png"])
+    img_file_buffer = st.file_uploader("📂 Subir imagen", type=["jpg", "jpeg", "png"])
 
 if img_file_buffer is None:
-    image_url = st.text_input("O ingrese una URL de imagen")
+    image_url = st.text_input("🌐 O ingresar URL de imagen")
     if image_url:
         try:
             response = requests.get(image_url)
             img_file_buffer = BytesIO(response.content)
         except:
-            st.error("Error al cargar la imagen desde la URL.")
+            st.error("❌ Error al cargar la imagen desde la URL.")
 
+# Procesar imagen si está disponible
 if img_file_buffer:
     try:
         image = Image.open(img_file_buffer)
-        st.image(image, use_column_width=True)
+        st.image(image, caption="🖼️ Imagen cargada", use_column_width=True)
         
         # Realizar predicción
         class_name, confidence = import_and_predict(image, model, class_names)
-        resultado = f"Producto identificado: {class_name} (Confianza: {confidence:.2f}%)"
-        st.subheader(resultado)
+        resultado = f"✅ Producto identificado: {class_name} (Confianza: {confidence:.2f}%)"
+        st.success(resultado)
         
         # Generar y reproducir audio
         mp3_fp = generar_audio(resultado)
         reproducir_audio(mp3_fp)
     except:
-        st.error("No se pudo procesar la imagen.")
+        st.error("❌ No se pudo procesar la imagen.")
