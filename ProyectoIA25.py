@@ -2,7 +2,7 @@ import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import streamlit as st  
 import tensorflow as tf
-from tensorflow.keras.applications.vgg16 import preprocess_input  # Importar preprocesamiento correcto
+from tensorflow.keras.applications.vgg16 import preprocess_input
 from PIL import Image
 import numpy as np
 import requests
@@ -19,20 +19,17 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-# Ocultar menús de Streamlit
-st.markdown(
-    """
+hide_streamlit_style = """
     <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     </style>
-    """,
-    unsafe_allow_html=True
-)
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 @st.cache_resource
 def load_model():
-    model_path = os.path.join(os.getcwd(), 'modelo_entrenado.h5')
+    model_path = '/mnt/data/modelo_entrenado.h5'  # Ruta donde se subió el modelo
     model = tf.keras.models.load_model(model_path)
     return model
 
@@ -59,24 +56,23 @@ try:
 except FileNotFoundError:
     st.error("No se encontró el archivo claseIA.txt. Verifique la ruta.")
 
-# Función para preprocesar la imagen correctamente para VGG16
+# Preprocesamiento de imagen para VGG16
 def preprocess_image(image):
-    if image.mode != 'RGB':
-        image = image.convert('RGB')  # Asegurar formato RGB
-    
-    image = image.resize((224, 224))  # Redimensionar la imagen
-    image = tf.keras.utils.img_to_array(image)  # Convertir a array de TensorFlow
-    image = np.expand_dims(image, axis=0)  # Expandir dimensiones para batch
-    image = preprocess_input(image)  # Aplicar preprocesamiento de VGG16
+    image = image.resize((224, 224))  # Ajustar al tamaño esperado por VGG16
+    image = tf.keras.utils.img_to_array(image)  # Convertir a array
+    image = np.expand_dims(image, axis=0)  # Añadir dimensión de batch
+    image = preprocess_input(image)  # Preprocesamiento específico de VGG16
     return image
 
 def import_and_predict(image_data, model, class_names):
-    image = preprocess_image(image_data)  # Preprocesar imagen
-
+    if image_data.mode != 'RGB':
+        image_data = image_data.convert('RGB')
+    
+    image = preprocess_image(image_data)  
     prediction = model.predict(image)
-    score = tf.nn.softmax(prediction[0]).numpy()  # Aplicar Softmax
+    score = tf.nn.softmax(prediction[0]).numpy()  # Aplicar softmax correctamente
     index = np.argmax(score)
-
+    
     class_name = class_names[index] if index < len(class_names) else "Desconocido"
     return class_name, score[index]
 
@@ -132,3 +128,4 @@ if img_file_buffer:
         st.error(f"Error al procesar la imagen: {e}")
 else:
     st.text("Por favor, cargue una imagen usando una de las opciones anteriores.")
+
