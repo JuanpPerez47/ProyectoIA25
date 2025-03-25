@@ -2,7 +2,7 @@ import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import streamlit as st  
 import tensorflow as tf
-from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras.applications.vgg16 import preprocess_input  # Importar preprocesamiento correcto
 from PIL import Image
 import numpy as np
 import requests
@@ -19,14 +19,16 @@ st.set_page_config(
     initial_sidebar_state='auto'
 )
 
-# Ocultar menú y pie de página en Streamlit
-hide_streamlit_style = """
+# Ocultar menús de Streamlit
+st.markdown(
+    """
     <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
 @st.cache_resource
 def load_model():
@@ -37,13 +39,6 @@ def load_model():
 with st.spinner('Modelo está cargando...'):
     model = load_model()
 
-# Mostrar estructura del modelo para verificar que se cargó bien
-with st.expander("Ver arquitectura del modelo"):
-    try:
-        model.summary(print_fn=lambda x: st.text(x))
-    except Exception as e:
-        st.error(f"Error al mostrar el modelo: {e}")
-
 with st.sidebar:
     st.video("https://www.youtube.com/watch?v=xxUHCtHnVk8")
     st.title("Reconocimiento de imagen")
@@ -52,51 +47,38 @@ with st.sidebar:
 
 st.image('smartregionlab2.jpeg')
 st.title("Modelo de Identificación de Objetos dentro del Laboratorio Smart Regions Center")
-st.write("Desarrollo del Proyecto de Ciencia de Datos: Aplicando modelos de Redes Convolucionales e Imágenes")
+st.write("Desarrollo del Proyecto de Ciencia de Datos : Aplicando modelos de Redes Convolucionales e Imágenes")
 st.write("# Detección de Objetos")
 
-# Cargar nombres de clases
+# Cargar nombres de clases correctamente
 try:
     with open("./claseIA.txt", "r") as f:
         class_names = [line.strip() for line in f.readlines()]
-    st.write("Clases cargadas:", class_names)
     if not class_names:
         st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
 except FileNotFoundError:
     st.error("No se encontró el archivo claseIA.txt. Verifique la ruta.")
 
-# Preprocesar la imagen para que sea compatible con VGG16
+# Función para preprocesar la imagen correctamente para VGG16
 def preprocess_image(image):
-    image = image.resize((224, 224))
-    image = tf.keras.utils.img_to_array(image)
-    image = np.expand_dims(image, axis=0)
-    image = preprocess_input(image)  # Preprocesamiento específico de VGG16
+    if image.mode != 'RGB':
+        image = image.convert('RGB')  # Asegurar formato RGB
+    
+    image = image.resize((224, 224))  # Redimensionar la imagen
+    image = tf.keras.utils.img_to_array(image)  # Convertir a array de TensorFlow
+    image = np.expand_dims(image, axis=0)  # Expandir dimensiones para batch
+    image = preprocess_input(image)  # Aplicar preprocesamiento de VGG16
     return image
 
-# Realizar la predicción
 def import_and_predict(image_data, model, class_names):
-    if image_data.mode != 'RGB':
-        image_data = image_data.convert('RGB')
+    image = preprocess_image(image_data)  # Preprocesar imagen
 
-    image = preprocess_image(image_data)  
     prediction = model.predict(image)
-    score = tf.nn.softmax(prediction[0]).numpy()
-
-    st.write("Predicción cruda:", prediction)
-    st.write("Puntajes de confianza (softmax):", score)
-
+    score = tf.nn.softmax(prediction[0]).numpy()  # Aplicar Softmax
     index = np.argmax(score)
-    confidence = score[index]
 
-    if index >= len(class_names):
-        class_name = "Desconocido"
-        st.error("El índice de predicción está fuera del rango de class_names.")
-    else:
-        class_name = class_names[index]
-
-    return class_name, confidence
-
-# Generar audio
+    class_name = class_names[index] if index < len(class_names) else "Desconocido"
+    return class_name, score[index]
 
 def generar_audio(texto):
     tts = gTTS(text=texto, lang='es')
@@ -105,7 +87,6 @@ def generar_audio(texto):
     mp3_fp.seek(0)
     return mp3_fp
 
-# Reproducir audio
 def reproducir_audio(mp3_fp):
     audio_bytes = mp3_fp.read()
     audio_base64 = base64.b64encode(audio_bytes).decode()
