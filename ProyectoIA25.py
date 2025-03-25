@@ -1,30 +1,3 @@
-# streamlit_audio_recorder y whisper by Alfredo Diaz - version Mayo 2024
-
-# En VsC seleccione la version de Python (recomiendo 3.9) 
-#CTRL SHIFT P  para crear el enviroment (Escriba Python Create Enviroment) y luego venv 
-
-#o puede usar el siguiente comando en el shell
-#Vaya a "view" en el menú y luego a terminal y lance un terminal.
-#python -m venv env
-
-#Verifique que el terminal inicio con el enviroment o en la carpeta del proyecto active el env.
-#cd D:\flores\env\Scripts\
-#.\activate 
-
-#Debe quedar asi: (.venv) D:\proyectos_ia\Flores>
-
-#Puedes verificar que no tenga ningun libreria preinstalada con
-#pip freeze
-#Actualicie pip con pip install --upgrade pip
-
-#pip install tensorflow==2.15 La que tiene instalada Google Colab o con la versión qu fué entrenado el modelo
-#Verifique se se instaló numpy, no trate de instalar numpy con pip install numpy, que puede instalar una version diferente
-#pip install streamlit
-#Verifique se se instaló no trante de instalar con pip install pillow
-#Esta instalacion se hace si la requiere pip install opencv-python
-
-#Descargue una foto de una flor que le sirva de ícono 
-
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import streamlit as st  
@@ -71,29 +44,30 @@ with st.sidebar:
 
 st.image('smartregionlab2.jpeg')
 st.title("Modelo de Identificación de Objetos dentro del Laboratorio Smart Regions Center")
-st.write("Desarrollo del Proyecto de Ciencia de Datos : Aplicando modelos de Redes Convolucionales e Imagenes")
+st.write("Desarrollo del Proyecto de Ciencia de Datos : Aplicando modelos de Redes Convolucionales e Imágenes")
 st.write("""
          # Detección de Objetos
          """
          )
 
+def preprocess_image(image):
+    image = tf.image.resize(image, (224, 224))  # Redimensionar a 224x224
+    image = image / 255.0  # Normalizar (opcional)
+    return image
+
 def import_and_predict(image_data, model, class_names):
     if image_data.mode != 'RGB':
         image_data = image_data.convert('RGB')
         
-    image_data = image_data.resize((180, 180))
+    image_data = image_data.resize((224, 224))  # Ajustar al tamaño esperado
     image = tf.keras.utils.img_to_array(image_data)
-    image = tf.expand_dims(image, 0)  # Create a batch
+    image = preprocess_image(image)  # Aplicar preprocesamiento
+    image = tf.expand_dims(image, 0)  # Crear un batch
     prediction = model.predict(image)
     index = np.argmax(prediction)
     score = tf.nn.softmax(prediction[0])
     class_name = class_names[index].strip()
     return class_name, score
-
-def preprocess_image(image):
-    image = tf.image.resize(image, (224, 224))  # Redimensionar a 224x224
-    image = image / 255.0  # Normalizar (opcional)
-    return image
 
 def generar_audio(texto):
     tts = gTTS(text=texto, lang='es')
@@ -139,7 +113,7 @@ if img_file_buffer:
 
         # Mostrar el resultado y generar audio
         if max_score > confianza:
-            resultado = f"Tipo de Objeti: {class_name}\nPuntuación de confianza: {100 * max_score:.2f}%"
+            resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * max_score:.2f}%"
             st.subheader(f"Tipo de Objeto: {class_name}")
             st.text(f"Puntuación de confianza: {100 * max_score:.2f}%")
         else:
@@ -154,3 +128,4 @@ if img_file_buffer:
         st.error(f"Error al procesar la imagen: {e}")
 else:
     st.text("Por favor, cargue una imagen usando una de las opciones anteriores.")
+
