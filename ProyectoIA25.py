@@ -42,7 +42,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Cargar el modelo con cache para evitar recargas innecesarias
 @st.cache_resource
 def load_model():
-    model_path = ".\modelo_entrenado.h5"
+    model_path = "modelo_entrenado.h5"
     if not os.path.exists(model_path):
         st.error("Error: No se encontró el modelo entrenado. Verifica la ruta.")
         return None
