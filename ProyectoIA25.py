@@ -121,8 +121,8 @@ if img_file_buffer and model:
 
         # Mostrar el resultado y generar audio
         if confidence_score > confianza:
-            resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
-            st.subheader(f"Tipo de Objeto: {class_name}")
+            resultado = f"Tipo de Objeto: {class_names}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
+            st.subheader(f"Tipo de Objeto: {class_names}")
             st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
 
 
