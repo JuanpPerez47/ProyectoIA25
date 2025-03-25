@@ -55,7 +55,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 @st.cache_resource
 def load_model():
-    model_path = os.path.join(os.getcwd(), 'productosa.h5')
+    model_path = os.path.join(os.getcwd(), 'modelo_entrenado.h5')
     model = tf.keras.models.load_model(model_path)
     return model
 
@@ -102,7 +102,7 @@ def reproducir_audio(mp3_fp):
     audio_html = f'<audio autoplay="true"><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
-class_names = open("./clases (1).txt", "r").readlines()
+class_names = open("./claseIA.txt", "r").readlines()
 
 # Opción para capturar una imagen desde la cámara
 img_file_buffer = st.camera_input("Capture una foto para identificar el producto")
