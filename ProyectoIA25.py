@@ -9,7 +9,6 @@ from io import BytesIO
 import warnings
 from gtts import gTTS
 import base64
-import os
 
 warnings.filterwarnings("ignore")
 
@@ -33,41 +32,50 @@ def load_model():
     model = tf.keras.models.load_model(model_path)
     return model
 
-with st.spinner('Modelo está cargando..'):
+with st.spinner('Modelo está cargando...'):
     model = load_model()
 
 with st.sidebar:
     st.video("https://www.youtube.com/watch?v=xxUHCtHnVk8")
     st.title("Reconocimiento de imagen")
     st.subheader("Reconocimiento de imagen para objetos")
-    confianza = st.slider("Seleccione el nivel de Confianza", 0, 100, 50) / 100
+    confianza = st.slider("Seleccione el nivel de confianza", 0, 100, 50) / 100
 
 st.image('smartregionlab2.jpeg')
 st.title("Modelo de Identificación de Objetos dentro del Laboratorio Smart Regions Center")
 st.write("Desarrollo del Proyecto de Ciencia de Datos : Aplicando modelos de Redes Convolucionales e Imágenes")
-st.write("""
-         # Detección de Objetos
-         """
-         )
+st.write("# Detección de Objetos")
 
+# Cargar nombres de clases correctamente
+try:
+    with open("./claseIA.txt", "r") as f:
+        class_names = [line.strip() for line in f.readlines()]
+    if not class_names:
+        st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
+except FileNotFoundError:
+    st.error("No se encontró el archivo claseIA.txt. Verifique la ruta.")
+
+# Función de preprocesamiento corregida
 def preprocess_image(image):
+    image = tf.keras.utils.img_to_array(image)  # Convertir a array de TensorFlow
     image = tf.image.resize(image, (224, 224))  # Redimensionar a 224x224
-    image = image / 255.0  # Normalizar (opcional)
+    image = image / 255.0  # Normalizar
+    image = tf.expand_dims(image, 0)  # Expandir dimensiones para batch
     return image
 
 def import_and_predict(image_data, model, class_names):
     if image_data.mode != 'RGB':
         image_data = image_data.convert('RGB')
-        
-    image_data = image_data.resize((224, 224))  # Ajustar al tamaño esperado
-    image = tf.keras.utils.img_to_array(image_data)
-    image = preprocess_image(image)  # Aplicar preprocesamiento
-    image = tf.expand_dims(image, 0)  # Crear un batch
+
+    image_data = image_data.resize((224, 224))  
+    image = preprocess_image(image_data)  
+
     prediction = model.predict(image)
-    index = np.argmax(prediction)
-    score = tf.nn.softmax(prediction[0])
-    class_name = class_names[index].strip()
-    return class_name, score
+    score = tf.nn.softmax(prediction[0]).numpy()  # Aplicar softmax correctamente
+    index = np.argmax(score)
+    
+    class_name = class_names[index] if index < len(class_names) else "Desconocido"
+    return class_name, score[index]
 
 def generar_audio(texto):
     tts = gTTS(text=texto, lang='es')
@@ -82,16 +90,10 @@ def reproducir_audio(mp3_fp):
     audio_html = f'<audio autoplay="true"><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
-class_names = open("./claseIA.txt", "r").readlines()
+# Capturar o cargar imagen
+img_file_buffer = st.camera_input("Capture una foto para identificar el objeto") or \
+                  st.file_uploader("Cargar imagen desde archivo", type=["jpg", "jpeg", "png"])
 
-# Opción para capturar una imagen desde la cámara
-img_file_buffer = st.camera_input("Capture una foto para identificar el objeto")
-
-# Opción para cargar una imagen desde un archivo local
-if img_file_buffer is None:
-    img_file_buffer = st.file_uploader("Cargar imagen desde archivo", type=["jpg", "jpeg", "png"])
-
-# Opción para cargar una imagen desde una URL
 if img_file_buffer is None:
     image_url = st.text_input("O ingrese la URL de la imagen")
     if image_url:
@@ -108,14 +110,13 @@ if img_file_buffer:
         st.image(image, use_column_width=True)
 
         # Realizar la predicción
-        class_name, score = import_and_predict(image, model, class_names)
-        max_score = np.max(score)
+        class_name, confidence_score = import_and_predict(image, model, class_names)
 
         # Mostrar el resultado y generar audio
-        if max_score > confianza:
-            resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * max_score:.2f}%"
+        if confidence_score > confianza:
+            resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
             st.subheader(f"Tipo de Objeto: {class_name}")
-            st.text(f"Puntuación de confianza: {100 * max_score:.2f}%")
+            st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
         else:
             resultado = "No se pudo determinar el tipo de objeto"
             st.text(resultado)
@@ -128,4 +129,3 @@ if img_file_buffer:
         st.error(f"Error al procesar la imagen: {e}")
 else:
     st.text("Por favor, cargue una imagen usando una de las opciones anteriores.")
-
