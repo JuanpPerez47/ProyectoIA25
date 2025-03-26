@@ -1,5 +1,7 @@
 advanced_optical_microscope: La imagen muestra un microscopio óptico avanzado con sistema binocular, objetivos intercambiables y perillas de enfoque. Se usa en investigación científica, educación y análisis de materiales.
 
+y soporta check
+
 agitador_magnetico_placa_calentamiento_EQ_AMPC1C: Dispositivo usado en laboratorios para calentar y agitar soluciones sin contacto mecánico. Cuenta con placa de calentamiento y sistema de agitación magnética.
 
 aire_acondicionado_york: Sistema de aire acondicionado tipo cassette instalado en el techo, diseñado para distribuir aire en 4 direcciones de manera eficiente y silenciosa.
