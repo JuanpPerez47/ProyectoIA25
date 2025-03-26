@@ -14,7 +14,7 @@ cafetera:
 Objeto: Electrodoméstico diseñado para preparar café. 
 Para qué sirve: Funciona pasando agua caliente a través de café molido para extraer su sabor y aroma.
 
-computador: Objeto: Dispositivo electrónico con procesador, memoria y almacenamiento. Para qué sirve: Se usa para procesamiento de datos, navegación en internet, diseño gráfico, programación y más.
+computador: Objeto: Dispositivo electrónico con procesador, memoria y almacenamiento.                            Para qué sirve: Se usa para procesamiento de datos, navegación en internet, diseño gráfico, programación y más.
 
 control_remoto_robot: 
 Objeto: Control remoto con botones programables para manejar robots inteligentes. 
