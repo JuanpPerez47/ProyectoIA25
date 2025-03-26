@@ -39,7 +39,6 @@ hide_streamlit_style = """
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# Cargar el modelo con cache para evitar recargas innecesarias
 @st.cache_resource
 def load_model():
     model_path = "./modelo_entrenado.h5"
@@ -65,7 +64,7 @@ try:
         st.error("El archivo claseIA.txt está vacío.")
 except FileNotFoundError:
     st.error("No se encontró el archivo claseIA.txt.")
-    
+
 # Cargar descripciones desde `proma.txt`
 descripcion_dict = {}
 try:
@@ -90,7 +89,6 @@ st.image('smartregionlab2.jpeg')
 st.title("Modelo de Identificación de Objetos - Smart Regions Center")
 st.write("Desarrollo del Proyecto de Ciencia de Datos con Redes Convolucionales")
 
-# Función para preprocesar la imagen
 def preprocess_image(image):
     if image.mode != 'RGB':
         image = image.convert('RGB')
@@ -100,7 +98,6 @@ def preprocess_image(image):
     image_array = preprocess_input(image_array)
     return image_array
 
-# Función de predicción
 def import_and_predict(image, model, class_names):
     if model is None:
         return "Modelo no cargado", 0.0
@@ -118,22 +115,23 @@ def import_and_predict(image, model, class_names):
 
     return class_name, confidence
 
-# Función para generar audio
 def generar_audio(texto):
+    """Genera audio asegurando que siempre haya contenido."""
+    if not texto.strip():
+        texto = "No se encontró información para este objeto."
     tts = gTTS(text=texto, lang='es')
     mp3_fp = BytesIO()
     tts.write_to_fp(mp3_fp)
     mp3_fp.seek(0)
     return mp3_fp
 
-# Función para reproducir el audio en Streamlit
 def reproducir_audio(mp3_fp):
+    """Reproduce el audio generado en Streamlit."""
     audio_bytes = mp3_fp.read()
     audio_base64 = base64.b64encode(audio_bytes).decode()
     audio_html = f'<audio autoplay="true"><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
-# Captura de imagen desde la cámara o carga desde archivo
 img_file_buffer = st.camera_input("Capture una foto para identificar el objeto") or \
                   st.file_uploader("Cargar imagen desde archivo", type=["jpg", "jpeg", "png"])
 
@@ -148,19 +146,15 @@ if img_file_buffer is None:
         except Exception as e:
             st.error(f"Error al cargar la imagen desde la URL: {e}")
 
-# Procesar la imagen y realizar la predicción
 if img_file_buffer and model:
     try:
         image = Image.open(img_file_buffer)
         st.image(image, use_column_width=True)
 
-        # Realizar la predicción
         class_name, confidence_score = import_and_predict(image, model, class_names)
 
-        # Buscar la descripción correspondiente
-        descripcion = descripcion_dict.get(class_name, "No hay descripción disponible para este objeto.")
+        descripcion = descripcion_dict.get(class_name, "No hay información disponible para este objeto.")
 
-        # Mostrar el resultado y generar audio
         if confidence_score > confianza:
             resultado = f"🔍 Objeto Detectado: {class_name.capitalize()}\n"
             resultado += f"🎯 Confianza: {100 * confidence_score:.2f}%\n\n"
@@ -182,5 +176,3 @@ if img_file_buffer and model:
         st.error(f"Error al procesar la imagen: {e}")
 else:
     st.text("Por favor, cargue una imagen usando una de las opciones anteriores.")
-
-
