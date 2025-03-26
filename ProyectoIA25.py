@@ -169,7 +169,9 @@ if img_file_buffer and model:
             st.text(resultado)
 
         # Generar y reproducir el audio con la descripción
+        mp3_fp1 = generar_audio(resultado)
         mp3_fp = generar_audio(descripcion)
+        reproducir_audio(mp3_fp1)
         reproducir_audio(mp3_fp)
         
     except Exception as e:
