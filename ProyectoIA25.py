@@ -156,13 +156,13 @@ if img_file_buffer and model:
         descripcion = descripcion_dict.get(class_name, "No hay información disponible para este objeto.")
 
         if confidence_score > confianza:
-            resultado = f"🔍 Objeto Detectado: {class_name.capitalize()}\n"
-            resultado += f"🎯 Confianza: {100 * confidence_score:.2f}%\n\n"
-            resultado += f"📌 **Descripción:** {descripcion}"
+            resultado = f"Objeto Detectado: {class_name.capitalize()}\n"
+            resultado += f"Confianza: {100 * confidence_score:.2f}%\n\n"
+            resultado += f"Descripción: {descripcion}"
             
-            st.subheader(f"🔍 Tipo de Objeto: {class_name.capitalize()}")
-            st.text(f"🎯 Confianza: {100 * confidence_score:.2f}%")
-            st.write(f"📌 **Descripción:** {descripcion}")
+            st.subheader(f"Tipo de Objeto: {class_name.capitalize()}")
+            st.text(f"Confianza: {100 * confidence_score:.2f}%")
+            st.write(f"Descripción: {descripcion}")
 
         else:
             resultado = "No se pudo determinar el tipo de objeto"
