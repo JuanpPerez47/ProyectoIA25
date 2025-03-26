@@ -1,77 +1,39 @@
-advanced_optical_microscope: 
-Objeto: Microscopio óptico avanzado con sistema binocular, objetivos intercambiables y perillas de enfoque. 
-Para qué sirve: Se usa en investigación científica, educación y análisis de materiales para observar estructuras microscópicas.
+microscopio_optico: El microscopio óptico es un instrumento de laboratorio que permite observar objetos extremadamente pequeños mediante un sistema de lentes que amplían la imagen. Se utiliza en investigación científica, educación y análisis de materiales biológicos y químicos.
 
-agitador_magnetico_placa_calentamiento_EQ_AMPC1C: 
-Objeto: Dispositivo de laboratorio que combina una placa de calentamiento con un sistema de agitación magnética.
-Para qué sirve: Permite mezclar y calentar soluciones sin contacto directo, utilizado en química y biotecnología.
+agitador_magnetico_con_placa_calefactora: El agitador magnético con placa calefactora es un dispositivo de laboratorio que mezcla líquidos utilizando un imán giratorio y, al mismo tiempo, puede calentarlos. Se usa en química y biotecnología para disolver sustancias o realizar reacciones a temperaturas controladas.
 
-aire_acondicionado_york: 
-Objeto: Sistema de aire acondicionado tipo cassette instalado en el techo. 
-Para qué sirve: Diseñado para distribuir aire en 4 direcciones de manera eficiente y silenciosa, ideal para oficinas y laboratorios.
+aire_acondicionado: El aire acondicionado es un sistema de climatización que enfría y regula la temperatura y humedad de un espacio cerrado. Se usa en hogares, oficinas y laboratorios para garantizar confort térmico y mejorar la calidad del aire.
 
-cafetera: 
-Objeto: Electrodoméstico diseñado para preparar café. 
-Para qué sirve: Funciona pasando agua caliente a través de café molido para extraer su sabor y aroma.
+cafetera: La cafetera es un electrodoméstico diseñado para preparar café. Funciona haciendo pasar agua caliente a través de café molido, extrayendo su sabor y aroma. Se utiliza en hogares, oficinas y cafeterías.
 
-computador: Objeto: Dispositivo electrónico con procesador, memoria y almacenamiento.                            Para qué sirve: Se usa para procesamiento de datos, navegación en internet, diseño gráfico, programación y más.
+computadora: La computadora es un dispositivo electrónico que procesa datos y ejecuta programas. Puede ser una PC de escritorio, portátil o servidor. Se usa para navegación en internet, diseño gráfico, programación, ofimática y juegos.
 
-control_remoto_robot: 
-Objeto: Control remoto con botones programables para manejar robots inteligentes. 
-Para qué sirve: Permite controlar robots en movimientos, reproducir sonidos y activar diferentes modos de programación.
+control_remoto_para_robot: El control remoto para robot es un dispositivo inalámbrico que permite manejar un robot a distancia. Posee botones para dirección, funciones programables y modos de interacción. Se usa en educación, robótica y entretenimiento.
 
-control_remoto_smart_tv: 
-Objeto: Mando inalámbrico para televisores inteligentes. 
-Para qué sirve: Facilita la navegación en plataformas de streaming y la interacción con asistentes de voz.
+control_remoto_para_smart_tv: El control remoto para Smart TV es un mando a distancia que permite operar televisores inteligentes. Se usa para cambiar canales, ajustar el volumen y acceder a plataformas de streaming como Netflix y YouTube.
 
-estacion_soldadura_aire_caliente: 
-Objeto: Herramienta electrónica para soldar y desoldar componentes mediante aire caliente. 
-Para qué sirve: Se usa en reparación de circuitos electrónicos y ensamblaje de dispositivos electrónicos.
+estacion_de_soldadura: La estación de soldadura es una herramienta utilizada para unir componentes electrónicos en placas de circuito impreso mediante calor y estaño. Se usa en electrónica, reparación de dispositivos y ensamblaje de circuitos.
 
-impresora_3d_creality_k1_max: 
-Objeto: Impresora 3D de alta velocidad para fabricación aditiva. 
-Para qué sirve: Se utiliza para prototipado, educación y manufactura digital de piezas en diversos materiales.
+impresora_3d: La impresora 3D es un dispositivo que fabrica objetos tridimensionales a partir de un modelo digital, depositando material en capas sucesivas. Se usa en prototipado, manufactura, educación y desarrollo de piezas personalizadas.
 
-mini_fresadora_cnc: 
-Objeto: Máquina de control numérico computarizado (CNC) para fresado. 
-Para qué sirve: Se emplea en grabado y mecanizado de materiales como PCB, madera y aluminio con alta precisión.
+fresadora_cnc: La fresadora CNC es una máquina de control numérico computarizado utilizada para cortar, grabar y mecanizar materiales como madera, plástico y metal con alta precisión. Se usa en la industria y la fabricación de piezas mecánicas.
 
-mouse: 
-Objeto: Dispositivo periférico de entrada con sensor óptico o mecánico. 
-Para qué sirve: Se usa para controlar el cursor de una computadora, facilitando la interacción con la interfaz gráfica.
+mouse: El mouse es un dispositivo de entrada para computadoras que permite controlar el cursor en la pantalla. Puede ser óptico o láser y se usa en tareas de navegación, diseño y juegos.
 
-osciloscopio_digital_rigol_ds1202ze: 
-Objeto: Instrumento de medición de señales eléctricas con pantalla digital. 
-Para qué sirve: Permite analizar la forma de onda de señales electrónicas en tiempo real, útil en electrónica y telecomunicaciones.
+osciloscopio_digital: El osciloscopio digital es un instrumento de medición que muestra señales eléctricas en forma de onda en una pantalla. Se usa en electrónica y telecomunicaciones para analizar circuitos y detectar fallos.
 
-puerta: 
-Objeto: Puerta de acceso al Laboratorio Smart Regions Center. 
-Para qué sirve: Controla el acceso al laboratorio, asegurando entrada solo a personal autorizado.
+puerta_de_laboratorio: La puerta del Laboratorio Smart Regions Center es el acceso principal al laboratorio. Está diseñada para controlar el ingreso y garantizar la seguridad del equipo y los investigadores.
 
-robot_humanoide_auler: 
-Objeto: Robot con forma humanoide y pantalla interactiva. 
-Para qué sirve: Se usa en educación, demostraciones y asistencia interactiva con capacidades de aprendizaje.
+robot_humanoide: El robot humanoide es un autómata con forma humana que puede interactuar con personas. Se usa en educación, investigación y asistencia en entornos industriales o de servicio.
 
-robot_lego_mindstorms_ev3: 
-Objeto: Kit de robótica educativa programable con sensores y motores. 
-Para qué sirve: Facilita el aprendizaje de programación y automatización en entornos educativos.
+robot_lego_mindstorms: El robot LEGO Mindstorms es un kit de robótica educativa programable con sensores y motores. Se usa para aprender automatización, programación y construcción de modelos robóticos.
 
-router: 
-Objeto: Dispositivo de red que administra la conexión a Internet. 
-Para qué sirve: Distribuye la señal de internet a dispositivos mediante Wi-Fi o cable Ethernet.
+router: El router es un dispositivo que distribuye la señal de internet a varios dispositivos mediante Wi-Fi o cable Ethernet. Se usa en hogares y oficinas para conectar computadoras, teléfonos y otros dispositivos a la red.
 
-soil_integrated_sensor: 
-Objeto: Sensor de suelo para medición de humedad, temperatura y pH. 
-Para qué sirve: Se usa en agricultura de precisión y monitoreo ambiental.
+sensor_de_suelo: El sensor de suelo es un dispositivo que mide parámetros como humedad, temperatura y pH en la tierra. Se usa en agricultura de precisión para optimizar el riego y mejorar la calidad del cultivo.
 
-tablet: 
-Objeto: Dispositivo portátil con pantalla táctil. 
-Para qué sirve: Se usa para navegación en internet, multimedia, productividad y aplicaciones interactivas.
+tablet: Una tablet es un dispositivo portátil con pantalla táctil que permite realizar múltiples tareas como navegación en internet, reproducción de contenido multimedia y productividad en la oficina o en el hogar.
 
-tomacorrientes_110v: 
-Objeto: Enchufe eléctrico con puertos USB. 
-Para qué sirve: Suministra energía a dispositivos electrónicos y permite la carga de equipos portátiles.
+tomacorriente_110v: Un tomacorriente de 110V es un punto de conexión eléctrica para enchufar dispositivos electrónicos. Algunos modelos incluyen puertos USB para cargar teléfonos y otros dispositivos.
 
-ups_netio: 
-Objeto: Sistema de alimentación ininterrumpida (UPS). 
-Para qué sirve: Protege equipos electrónicos de cortes de energía y fluctuaciones de voltaje.
+ups: Un UPS (Sistema de Alimentación Ininterrumpida) es un equipo que protege dispositivos electrónicos de cortes de energía y fluctuaciones de voltaje. Se usa en computadoras, servidores y equipos sensibles para evitar pérdida de datos y daños eléctricos.
