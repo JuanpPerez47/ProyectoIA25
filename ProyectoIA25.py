@@ -62,9 +62,23 @@ try:
     with open("claseIA.txt", "r") as f:
         class_names = [line.strip() for line in f.readlines()]
     if not class_names:
-        st.error("El archivo claseIA.txt está vacío. Asegúrese de que contiene los nombres de las clases.")
+        st.error("El archivo claseIA.txt está vacío.")
 except FileNotFoundError:
-    st.error("No se encontró el archivo claseIA.txt. Verifique la ruta.")
+    st.error("No se encontró el archivo claseIA.txt.")
+    
+# Cargar descripciones desde `proma.txt`
+descripcion_dict = {}
+try:
+    with open("proma.txt", "r", encoding="utf-8") as f:
+        contenido = f.read().split("\n\n")
+        for bloque in contenido:
+            lineas = bloque.strip().split("\n")
+            if len(lineas) > 1:
+                clave = lineas[0].strip().replace(":", "").lower()
+                descripcion = " ".join(lineas[1:]).strip()
+                descripcion_dict[clave] = descripcion
+except FileNotFoundError:
+    st.error("No se encontró el archivo proma.txt.")
 
 # Configuración de la barra lateral
 with st.sidebar:
@@ -83,8 +97,8 @@ def preprocess_image(image):
         image = image.convert('RGB')
     image = image.resize((224, 224))
     image_array = np.array(image)
-    image_array = np.expand_dims(image_array, axis=0)  # Expandir dimensión batch
-    image_array = preprocess_input(image_array)  # Normalización de VGG16
+    image_array = np.expand_dims(image_array, axis=0)
+    image_array = preprocess_input(image_array)
     return image_array
 
 # Función de predicción
@@ -99,7 +113,7 @@ def import_and_predict(image, model, class_names):
     confidence = np.max(prediction[0])
 
     if index < len(class_names):
-        class_name = class_names[index]
+        class_name = class_names[index].lower()
     else:
         class_name = "Desconocido"
 
@@ -144,20 +158,25 @@ if img_file_buffer and model:
         # Realizar la predicción
         class_name, confidence_score = import_and_predict(image, model, class_names)
 
+        # Buscar la descripción correspondiente
+        descripcion = descripcion_dict.get(class_name, "No hay descripción disponible para este objeto.")
+
         # Mostrar el resultado y generar audio
         if confidence_score > confianza:
             resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
             st.subheader(f"🔍 Tipo de Objeto: {class_name}")
             st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
+            st.write(f"📌 **Descripción:** {descripcion}")
         else:
             resultado = "No se pudo determinar el tipo de objeto"
             st.text(resultado)
 
-        # Generar y reproducir el audio
-        mp3_fp = generar_audio(resultado)
+        # Generar y reproducir el audio con la descripción
+        mp3_fp = generar_audio(descripcion)
         reproducir_audio(mp3_fp)
         
     except Exception as e:
         st.error(f"Error al procesar la imagen: {e}")
 else:
     st.text("Por favor, cargue una imagen usando una de las opciones anteriores.")
+
