@@ -1,40 +1,79 @@
-advanced_optical_microscope: La imagen muestra un microscopio óptico avanzado con sistema binocular, objetivos intercambiables y perillas de enfoque. Se usa en investigación científica, educación y análisis de materiales. \n y soporta check
+advanced_optical_microscope: 
+Objeto: Microscopio óptico avanzado con sistema binocular, objetivos intercambiables y perillas de enfoque. 
+Para qué sirve: Se usa en investigación científica, educación y análisis de materiales para observar estructuras microscópicas.
 
-agitador_magnetico_placa_calentamiento_EQ_AMPC1C: Dispositivo usado en laboratorios para calentar y agitar soluciones sin contacto mecánico. Cuenta con placa de calentamiento y sistema de agitación magnética.
+agitador_magnetico_placa_calentamiento_EQ_AMPC1C: 
+Objeto: Dispositivo de laboratorio que combina una placa de calentamiento con un sistema de agitación magnética.
+Para qué sirve: Permite mezclar y calentar soluciones sin contacto directo, utilizado en química y biotecnología.
 
-aire_acondicionado_york: Sistema de aire acondicionado tipo cassette instalado en el techo, diseñado para distribuir aire en 4 direcciones de manera eficiente y silenciosa.
+aire_acondicionado_york: 
+Objeto: Sistema de aire acondicionado tipo cassette instalado en el techo. 
+Para qué sirve: Diseñado para distribuir aire en 4 direcciones de manera eficiente y silenciosa, ideal para oficinas y laboratorios.
 
-cafetera: Electrodoméstico diseñado para preparar café mediante el paso de agua caliente a través de café molido.
+cafetera: 
+Objeto: Electrodoméstico diseñado para preparar café. 
+Para qué sirve: Funciona pasando agua caliente a través de café molido para extraer su sabor y aroma.
 
-computador: Dispositivo electrónico que procesa información y ejecuta programas, utilizado en navegación, diseño, programación y más.
+computador: 
+Objeto: Dispositivo electrónico con procesador, memoria y almacenamiento. 
+Para qué sirve: Se usa para procesamiento de datos, navegación en internet, diseño gráfico, programación y más.
 
-control_remoto_robot: Control remoto para manejar un robot inteligente con funciones como movimiento, música y modo de programación.
+control_remoto_robot: 
+Objeto: Control remoto con botones programables para manejar robots inteligentes. 
+Para qué sirve: Permite controlar robots en movimientos, reproducir sonidos y activar diferentes modos de programación.
 
-control_remoto_smart_tv: Mando para televisores inteligentes, con botones dedicados a plataformas de streaming y asistentes de voz.
+control_remoto_smart_tv: 
+Objeto: Mando inalámbrico para televisores inteligentes. 
+Para qué sirve: Facilita la navegación en plataformas de streaming y la interacción con asistentes de voz.
 
-estacion_soldadura_aire_caliente: Herramienta para soldar y desoldar componentes electrónicos con precisión mediante aire caliente.
+estacion_soldadura_aire_caliente: 
+Objeto: Herramienta electrónica para soldar y desoldar componentes mediante aire caliente. 
+Para qué sirve: Se usa en reparación de circuitos electrónicos y ensamblaje de dispositivos electrónicos.
 
-impresora_3d_creality_k1_max: Impresora 3D de alta velocidad para fabricación aditiva, prototipado y educación en manufactura digital.
+impresora_3d_creality_k1_max: 
+Objeto: Impresora 3D de alta velocidad para fabricación aditiva. 
+Para qué sirve: Se utiliza para prototipado, educación y manufactura digital de piezas en diversos materiales.
 
-mini_fresadora_cnc: Máquina de control numérico usada para grabado y mecanizado de materiales como PCB, madera y aluminio.
+mini_fresadora_cnc: 
+Objeto: Máquina de control numérico computarizado (CNC) para fresado. 
+Para qué sirve: Se emplea en grabado y mecanizado de materiales como PCB, madera y aluminio con alta precisión.
 
-mouse: Dispositivo de entrada periférico que permite interactuar con la computadora mediante el control de un cursor.
+mouse: 
+Objeto: Dispositivo periférico de entrada con sensor óptico o mecánico. 
+Para qué sirve: Se usa para controlar el cursor de una computadora, facilitando la interacción con la interfaz gráfica.
 
-osciloscopio_digital_rigol_ds1202ze: Instrumento de medición que permite analizar señales eléctricas en tiempo real, útil en electrónica y telecomunicaciones.
+osciloscopio_digital_rigol_ds1202ze: 
+Objeto: Instrumento de medición de señales eléctricas con pantalla digital. 
+Para qué sirve: Permite analizar la forma de onda de señales electrónicas en tiempo real, útil en electrónica y telecomunicaciones.
 
-puerta: La puerta del Laboratorio Smart Regions Center regula el acceso al laboratorio, asegurando entrada solo a personal autorizado.
+puerta: 
+Objeto: Puerta de acceso al Laboratorio Smart Regions Center. 
+Para qué sirve: Controla el acceso al laboratorio, asegurando entrada solo a personal autorizado.
 
-robot_humanoide_auler: Robot educativo con diseño humanoide, pantalla interactiva y capacidades de programación y aprendizaje.
+robot_humanoide_auler: 
+Objeto: Robot con forma humanoide y pantalla interactiva. 
+Para qué sirve: Se usa en educación, demostraciones y asistencia interactiva con capacidades de aprendizaje.
 
-robot_lego_mindstorms_ev3: Kit de robótica educativa programable con sensores y motores, usado para aprendizaje de automatización.
+robot_lego_mindstorms_ev3: 
+Objeto: Kit de robótica educativa programable con sensores y motores. 
+Para qué sirve: Facilita el aprendizaje de programación y automatización en entornos educativos.
 
-router: Dispositivo que distribuye la conexión a Internet a múltiples dispositivos mediante Wi-Fi o cable Ethernet.
+router: 
+Objeto: Dispositivo de red que administra la conexión a Internet. 
+Para qué sirve: Distribuye la señal de internet a dispositivos mediante Wi-Fi o cable Ethernet.
 
-soil_integrated_sensor: Sensor integrado para medir humedad, temperatura, pH y conductividad del suelo en agricultura e investigación.
+soil_integrated_sensor: 
+Objeto: Sensor de suelo para medición de humedad, temperatura y pH. 
+Para qué sirve: Se usa en agricultura de precisión y monitoreo ambiental.
 
-tablet: Dispositivo portátil con pantalla táctil usado para navegación, multimedia y tareas de productividad.
+tablet: 
+Objeto: Dispositivo portátil con pantalla táctil. 
+Para qué sirve: Se usa para navegación en internet, multimedia, productividad y aplicaciones interactivas.
 
-tomacorrientes_110v: Toma eléctrica de 110V con puertos USB, usado para suministrar energía a dispositivos electrónicos.
+tomacorrientes_110v: 
+Objeto: Enchufe eléctrico con puertos USB. 
+Para qué sirve: Suministra energía a dispositivos electrónicos y permite la carga de equipos portátiles.
 
-ups_netio: Sistema de alimentación ininterrumpida (UPS) que protege dispositivos de cortes eléctricos y fluctuaciones de voltaje.
-
+ups_netio: 
+Objeto: Sistema de alimentación ininterrumpida (UPS). 
+Para qué sirve: Protege equipos electrónicos de cortes de energía y fluctuaciones de voltaje.
