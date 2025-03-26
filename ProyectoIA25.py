@@ -59,8 +59,8 @@ with st.spinner('Cargando modelo...'):
 # Cargar nombres de clases
 class_names = []
 try:
-    with open("claseIA.txt", "r") as f:
-        class_names = [line.strip() for line in f.readlines()]
+    with open("claseIA.txt", "r", encoding="utf-8") as f:
+        class_names = [line.strip().lower() for line in f.readlines()]
     if not class_names:
         st.error("El archivo claseIA.txt está vacío.")
 except FileNotFoundError:
@@ -70,12 +70,11 @@ except FileNotFoundError:
 descripcion_dict = {}
 try:
     with open("proma.txt", "r", encoding="utf-8") as f:
-        contenido = f.read().split("\n\n")
-        for bloque in contenido:
-            lineas = bloque.strip().split("\n")
-            if len(lineas) > 1:
-                clave = lineas[0].strip().replace(":", "").lower()
-                descripcion = " ".join(lineas[1:]).strip()
+        for line in f:
+            partes = line.strip().split(":", 1)
+            if len(partes) == 2:
+                clave = partes[0].strip().lower()
+                descripcion = partes[1].strip()
                 descripcion_dict[clave] = descripcion
 except FileNotFoundError:
     st.error("No se encontró el archivo proma.txt.")
@@ -113,7 +112,7 @@ def import_and_predict(image, model, class_names):
     confidence = np.max(prediction[0])
 
     if index < len(class_names):
-        class_name = class_names[index].lower()
+        class_name = class_names[index]
     else:
         class_name = "Desconocido"
 
@@ -163,10 +162,14 @@ if img_file_buffer and model:
 
         # Mostrar el resultado y generar audio
         if confidence_score > confianza:
-            resultado = f"Tipo de Objeto: {class_name}\nPuntuación de confianza: {100 * confidence_score:.2f}%"
-            st.subheader(f"🔍 Tipo de Objeto: {class_name}")
-            st.text(f"Puntuación de confianza: {100 * confidence_score:.2f}%")
+            resultado = f"🔍 Objeto Detectado: {class_name.capitalize()}\n"
+            resultado += f"🎯 Confianza: {100 * confidence_score:.2f}%\n\n"
+            resultado += f"📌 **Descripción:** {descripcion}"
+            
+            st.subheader(f"🔍 Tipo de Objeto: {class_name.capitalize()}")
+            st.text(f"🎯 Confianza: {100 * confidence_score:.2f}%")
             st.write(f"📌 **Descripción:** {descripcion}")
+
         else:
             resultado = "No se pudo determinar el tipo de objeto"
             st.text(resultado)
@@ -179,4 +182,5 @@ if img_file_buffer and model:
         st.error(f"Error al procesar la imagen: {e}")
 else:
     st.text("Por favor, cargue una imagen usando una de las opciones anteriores.")
+
 
