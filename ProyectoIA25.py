@@ -171,8 +171,8 @@ if img_file_buffer and model:
         # Generar y reproducir el audio con la descripción
         mp3_fp1 = generar_audio(resultado)
         mp3_fp = generar_audio(descripcion)
-        reproducir_audio(mp3_fp1)
-        reproducir_audio(mp3_fp)
+        reproducir_audio(mp3_fp1,mp3_fp)
+        
         
     except Exception as e:
         st.error(f"Error al procesar la imagen: {e}")
