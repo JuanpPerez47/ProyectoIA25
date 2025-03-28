@@ -159,6 +159,9 @@ if img_file_buffer and model:
             resultado = f"Objeto Detectado: {class_name.capitalize()}\n"
             resultado += f"Confianza: {100 * confidence_score:.2f}%\n\n"
             resultado += f"Descripción: {descripcion}"
+
+            # Eliminar caracteres no deseados manualmente
+            resultado_limpio = resultado.replace('*', '').replace('_', '').replace('/', '')
             
             st.subheader(f"Tipo de Objeto: {class_name.capitalize()}")
             st.text(f"Confianza: {100 * confidence_score:.2f}%")
@@ -169,7 +172,7 @@ if img_file_buffer and model:
             st.text(resultado)
 
         # Generar y reproducir el audio con la descripción
-        mp3_fp1 = generar_audio(resultado)
+        mp3_fp1 = generar_audio(resultado_limpio)
         reproducir_audio(mp3_fp1)
         mp3_fp = generar_audio(descripcion)
         reproducir_audio(mp3_fp1)
